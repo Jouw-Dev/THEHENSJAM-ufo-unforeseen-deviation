@@ -1,9 +1,9 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private float lifetime = 3f;
+    [SerializeField] private int damage = 1;
     private Rigidbody2D rb;
     private BulletPool pool;
     private float timer;
@@ -39,14 +39,15 @@ public class Bullet : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(returned)
-            return;
 
-        if (other.CompareTag("Enemy"))
-        {
-            // Debug.Log("Hit");
-            ReturnToPool();
-        }
+        EnemyHealth enemy = other.GetComponentInParent<EnemyHealth>();
+
+        if (enemy == null) return;
+
+        enemy.TakeDamage(damage);
+
+        // Desativa o projétil para reutilização pelo pooling.
+        gameObject.SetActive(false);
     }
 
     public void ReturnToPool()
