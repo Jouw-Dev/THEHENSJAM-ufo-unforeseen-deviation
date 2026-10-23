@@ -48,7 +48,7 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    private void SpawnEnemy()
+    public void SpawnEnemy()
     {
         float depth = Mathf.Abs(_camera.transform.position.z - _enemyPrefab.transform.position.z);
 
